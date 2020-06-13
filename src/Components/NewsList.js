@@ -32,7 +32,6 @@ function getChartData(newsFeed) {
   newsFeed.forEach(({ objectID, upVote }) => {
     chartObj[String(objectID)] = upVote;
   });
-  console.log({ chartObj });
   return chartObj;
 }
 
