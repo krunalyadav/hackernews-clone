@@ -32,7 +32,7 @@ export const Row = styled.tr`
 `;
 
 export const GreySpan = styled.span`
-  color: #909090;
+  color: #6a6a6a;
   font-size: 10px;
 `;
 
@@ -44,9 +44,10 @@ export const LinkButton = styled(Link)`
   font-size: 13px;
   cursor: pointer;
   display: inline-block;
-  color: #ff6600;
+  color: #c85000;
   text-decoration: none;
   padding: 0 5px;
+  font-weight: 500;
 `;
 
 export const OrangeSpan = styled.span`
@@ -59,7 +60,7 @@ export const HideButton = styled.button`
   font-size: 10px;
   cursor: pointer;
   display: inline-block;
-  color: #909090;
+  color: #6a6a6a;
 `;
 
 export const Chart = styled.div`
