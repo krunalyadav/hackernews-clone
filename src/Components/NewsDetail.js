@@ -6,7 +6,7 @@ const NewsDetail = (props) => {
   if (!props.title) return null;
   return (
     <Row>
-      <td>{props.num_comments || '-'}</td>
+      <td>{props.num_comments || 0}</td>
       <td>{props.points || 0}</td>
       <td>
         <VoteArrow />
