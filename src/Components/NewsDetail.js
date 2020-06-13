@@ -1,15 +1,15 @@
 import React from 'react';
 import moment from 'moment';
-import { VoteArrow, Row, GreySpan, Author } from '../style';
+import { VoteArrow, Row, GreySpan, Author, HideButton } from '../style';
 
 const NewsDetail = (props) => {
   if (!props.title) return null;
   return (
     <Row>
       <td>{props.num_comments || 0}</td>
-      <td>{props.points || 0}</td>
+      <td>{props.upVote || 0}</td>
       <td>
-        <VoteArrow />
+        <VoteArrow onClick={props.onUpVoteClick.bind(this, props.objectID)} />
       </td>
       <td align="left">
         <span>{props.title}</span>
@@ -23,6 +23,9 @@ const NewsDetail = (props) => {
         {props.created_at && (
           <GreySpan>{` ${moment(props.created_at).fromNow()}`}</GreySpan>
         )}
+        <HideButton onClick={props.onHideClick.bind(this, props.objectID)}>
+          [ hide ]
+        </HideButton>
       </td>
     </Row>
   );
