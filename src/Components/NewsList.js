@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Table, Header, Button, OrangeSpan } from '../style';
+import { Table, Header, LinkButton, OrangeSpan } from '../style';
 import NewsDetail from './NewsDetail';
+import useQuery from '../hooks/useQuery';
 
-async function fetchNews() {
-  let pageNumber = 0;
+async function fetchNews(pageNumber = 0) {
   try {
     const response = await axios.get(
       `https://hn.algolia.com/api/v1/search?page=${pageNumber}`
     );
-    pageNumber = pageNumber + 1;
     return response.data;
   } catch (error) {
     console.error({ error });
@@ -20,16 +19,21 @@ async function fetchNews() {
 const NewsList = () => {
   const [newsFeed, setNewsFeed] = useState([]);
   const [loading, setLoading] = useState(false);
+  const totalPage = useRef(0);
+  const query = useQuery();
+  const currentPageNumber = +query.get('page') || 1;
 
   useEffect(() => {
     setLoading(true);
-    fetchNews().then((data) => {
+    fetchNews(currentPageNumber - 1).then((data) => {
+      totalPage.current = data.nbPages;
       setNewsFeed(data.hits);
       setLoading(false);
     });
-  }, []);
+  }, [currentPageNumber]);
 
-  console.log({ newsFeed });
+  console.log({ newsFeed, currentPageNumber });
+  console.log(totalPage.current);
 
   return (
     <Table>
@@ -53,9 +57,26 @@ const NewsList = () => {
         ))}
         <tr>
           <td colSpan="4" align="right">
-            <Button type="button">Previous</Button>
-            <OrangeSpan>|</OrangeSpan>
-            <Button type="button">Next</Button>
+            {currentPageNumber !== 1 && (
+              <LinkButton
+                to={`/news${
+                  currentPageNumber === 2
+                    ? ''
+                    : `?page=${currentPageNumber - 1}`
+                }`}
+              >
+                Previous
+              </LinkButton>
+            )}
+            {currentPageNumber !== 1 &&
+              currentPageNumber !== totalPage.current && (
+                <OrangeSpan>|</OrangeSpan>
+              )}
+            {currentPageNumber !== totalPage.current && (
+              <LinkButton to={`/news/?page=${currentPageNumber + 1}`}>
+                Next
+              </LinkButton>
+            )}
           </td>
         </tr>
       </tbody>

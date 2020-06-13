@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Table = styled.table`
   font-size: 14px;
@@ -38,13 +39,13 @@ export const Author = styled.span`
   font-size: 10px;
 `;
 
-export const Button = styled.button`
-  border: none;
-  background-color: inherit;
+export const LinkButton = styled(Link)`
   font-size: 13px;
   cursor: pointer;
   display: inline-block;
   color: #ff6600;
+  text-decoration: none;
+  padding: 0 5px;
 `;
 
 export const OrangeSpan = styled.span`
