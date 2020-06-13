@@ -61,3 +61,7 @@ export const HideButton = styled.button`
   display: inline-block;
   color: #909090;
 `;
+
+export const Chart = styled.div`
+  margin: 4%;
+`;

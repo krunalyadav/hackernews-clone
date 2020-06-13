@@ -3,7 +3,6 @@ import moment from 'moment';
 import { VoteArrow, Row, GreySpan, Author, HideButton } from '../style';
 
 const NewsDetail = (props) => {
-  if (!props.title) return null;
   return (
     <Row>
       <td>{props.num_comments || 0}</td>

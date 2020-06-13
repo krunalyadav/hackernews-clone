@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { Table, Header, LinkButton, OrangeSpan } from '../style';
+import { Table, Header, LinkButton, OrangeSpan, Chart } from '../style';
 import NewsDetail from './NewsDetail';
 import useQuery from '../hooks/useQuery';
 import SkeletonNewsDetail from './SkeletonNewsDetail';
+import { LineChart } from 'react-chartkick';
+import 'chart.js';
 
 function updateNewsFeed(response) {
   const upVoteObj = JSON.parse(localStorage.getItem('upVote') || '{}');
@@ -23,6 +25,15 @@ function updateNewsFeed(response) {
     }
   });
   return { ...response, hits: updatedNewsFeed };
+}
+
+function getChartData(newsFeed) {
+  const chartObj = {};
+  newsFeed.forEach(({ objectID, upVote }) => {
+    chartObj[String(objectID)] = upVote;
+  });
+  console.log({ chartObj });
+  return chartObj;
 }
 
 async function fetchNews(pageNumber = 0) {
@@ -81,65 +92,78 @@ const NewsList = () => {
     },
     [newsFeed]
   );
-  console.log(newsFeed);
+
   return (
-    <Table>
-      <colgroup>
-        <col span="1" style={{ width: '7%' }} />
-        <col span="1" style={{ width: '7%' }} />
-        <col span="1" style={{ width: '7%' }} />
-        <col span="1" style={{ width: '79%' }} />
-      </colgroup>
-      <Header>
-        <tr>
-          <th>Comments</th>
-          <th>Vote</th>
-          <th>UpVote</th>
-          <th align="left">News Details</th>
-        </tr>
-      </Header>
-      <tbody>
-        {loading &&
-          Array(20)
-            .fill(0)
-            .map((_, index) => <SkeletonNewsDetail key={index} />)}
-        {!loading &&
-          newsFeed.map((feed) => (
-            <NewsDetail
-              key={feed.objectID}
-              {...feed}
-              onUpVoteClick={onUpVoteClick}
-              onHideClick={onHideClick}
-            />
-          ))}
-        {!loading && newsFeed.length ? (
+    <>
+      <Table>
+        <colgroup>
+          <col span="1" style={{ width: '7%' }} />
+          <col span="1" style={{ width: '7%' }} />
+          <col span="1" style={{ width: '7%' }} />
+          <col span="1" style={{ width: '79%' }} />
+        </colgroup>
+        <Header>
           <tr>
-            <td colSpan="4" align="right">
-              {currentPageNumber !== 1 && (
-                <LinkButton
-                  to={`/news${
-                    currentPageNumber === 2
-                      ? ''
-                      : `?page=${currentPageNumber - 1}`
-                  }`}
-                >
-                  Previous
-                </LinkButton>
-              )}
-              {currentPageNumber !== 1 &&
-                currentPageNumber !== totalPage.current && (
-                  <OrangeSpan>|</OrangeSpan>
-                )}
-              {currentPageNumber !== totalPage.current && (
-                <LinkButton to={`/news/?page=${currentPageNumber + 1}`}>
-                  Next
-                </LinkButton>
-              )}
-            </td>
+            <th>Comments</th>
+            <th>Vote</th>
+            <th>UpVote</th>
+            <th align="left">News Details</th>
           </tr>
+        </Header>
+        <tbody>
+          {loading &&
+            Array(20)
+              .fill(0)
+              .map((_, index) => <SkeletonNewsDetail key={index} />)}
+          {!loading &&
+            newsFeed.map((feed) => (
+              <NewsDetail
+                key={feed.objectID}
+                {...feed}
+                onUpVoteClick={onUpVoteClick}
+                onHideClick={onHideClick}
+              />
+            ))}
+          {!loading && newsFeed.length ? (
+            <tr>
+              <td colSpan="4" align="right">
+                {currentPageNumber !== 1 && (
+                  <LinkButton
+                    to={`/news${
+                      currentPageNumber === 2
+                        ? ''
+                        : `?page=${currentPageNumber - 1}`
+                    }`}
+                  >
+                    Previous
+                  </LinkButton>
+                )}
+                {currentPageNumber !== 1 &&
+                  currentPageNumber !== totalPage.current && (
+                    <OrangeSpan>|</OrangeSpan>
+                  )}
+                {currentPageNumber !== totalPage.current && (
+                  <LinkButton to={`/news/?page=${currentPageNumber + 1}`}>
+                    Next
+                  </LinkButton>
+                )}
+              </td>
+            </tr>
+          ) : null}
+        </tbody>
+      </Table>
+      <hr />
+      <Chart>
+        {newsFeed && !loading ? (
+          <LineChart
+            data={getChartData(newsFeed)}
+            xtitle="ID"
+            ytitle="Votes"
+            curve={false}
+          />
         ) : null}
-      </tbody>
-    </Table>
+      </Chart>
+    </>
   );
 };
 
