@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - '14'
+script:
+  - npm test
+  - npm run build
+deploy:
+  provider: heroku
+  app: hackernews-clone-krunal
+  api_key:
+    secure: oiz0cIecZA+ZkxxIad++nifUdQCdgw6vxkJg1rqSwIRxRLukC1a7UxvXZqzYY3NkEm95vGTywYwJJA3TuMPTbtibhL69LpVMpY52RKhmqFDjrjsGODC936oKzSQspV0Bkyzb0YHEvfrPekLwHT2pOqJsVeMOJTBHsdsSxwStVcbwdGaX54Ym/8On1McRYvVMIhAe9mv/CYSMoMNL8MUcHG2W8YRd4NO5uVXt1FRNvGmAkeyRf5SfniiqOv0X/EHVfdxLkQQHwl6rEejhsIKKGA/1Iik0feZ3xqv1bQXLEbQmOoR9kdwMHN/RWEczCpNrSPyGs4hwUOPX4ZXb9Ig3AcL/WDgwiqFDeY5BpZQJleFFp/oYv63ji5x6v49G3cWaFq8cNCnR0jU1PJMPWN3hFtxVt7k4nxPAKHzCN5SVuhEOG9rg5EtwwjwcUjJwiwDiLPXKjJOUiri5ooylpcsjJ3Ig2SyRgy8KK+IcJEGXPGB020008tSbNbBTpcghBapdOckjb2ojFgOoBAI2ckT/LAMYSJWUraOk7W43tvrzU6bWIL0WlEJd8NehGr/HUkF9HxO5hK/Iwr8TIECy4y2ZFE2Sb4YLhR2uSEhITODNjIzI6+P87E3uIIH7LMWUhNvd/Tp+3nAtal9YSJlStIkm7ebp/dYn8xUjoHchNN6oqXk=
