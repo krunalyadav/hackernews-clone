@@ -8,6 +8,28 @@ export const Table = styled.table`
   border-spacing: 0;
   text-align: center;
   overflow: hidden;
+  th,
+  td {
+    width: 7%;
+  }
+  th:last-child,
+  td:last-child {
+    width: 79%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 12px;
+    th,
+    td {
+      width: 3%;
+    }
+    th:last-child,
+    td:last-child {
+      width: 90%;
+      display: table;
+      width: 100%;
+    }
+  }
 `;
 
 export const Header = styled.thead`

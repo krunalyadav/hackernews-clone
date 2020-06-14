@@ -95,12 +95,6 @@ const NewsList = () => {
   return (
     <>
       <Table>
-        <colgroup>
-          <col span="1" style={{ width: '7%' }} />
-          <col span="1" style={{ width: '7%' }} />
-          <col span="1" style={{ width: '7%' }} />
-          <col span="1" style={{ width: '79%' }} />
-        </colgroup>
         <Header>
           <tr>
             <th>Comments</th>
