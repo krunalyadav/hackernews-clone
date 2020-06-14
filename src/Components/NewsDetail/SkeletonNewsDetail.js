@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from '../style';
+import { Row } from '../../style';
 import Skeleton from 'react-loading-skeleton';
 
 const SkeletonNewsDetail = (props) => {

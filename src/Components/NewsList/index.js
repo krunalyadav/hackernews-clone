@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { Table, Header, LinkButton, OrangeSpan, Chart } from '../style';
-import NewsDetail from './NewsDetail';
-import useQuery from '../hooks/useQuery';
-import SkeletonNewsDetail from './SkeletonNewsDetail';
+import { Table, Header, LinkButton, OrangeSpan, Chart } from '../../style';
+import NewsDetail from '../NewsDetail';
+import useQuery from '../../hooks/useQuery';
+import SkeletonNewsDetail from '../NewsDetail/SkeletonNewsDetail';
 import { LineChart } from 'react-chartkick';
 import 'chart.js';
 
+// function to sync the locally stored up votes and hide feature with actual data
 function updateNewsFeed(response) {
   const upVoteObj = JSON.parse(localStorage.getItem('upVote') || '{}');
   const upVoteObjIDs = Object.keys(upVoteObj);
@@ -27,6 +28,7 @@ function updateNewsFeed(response) {
   return { ...response, hits: updatedNewsFeed };
 }
 
+// prepare data for to display in chart
 function getChartData(newsFeed) {
   const chartObj = {};
   newsFeed.forEach(({ objectID, upVote }) => {
@@ -35,12 +37,12 @@ function getChartData(newsFeed) {
   return chartObj;
 }
 
+// fetch news api call
 async function fetchNews(pageNumber = 0) {
   try {
     const response = await axios.get(
       `https://hn.algolia.com/api/v1/search?page=${pageNumber}`
     );
-
     return updateNewsFeed(response.data);
   } catch (error) {
     console.error({ error });
